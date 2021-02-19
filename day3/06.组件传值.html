@@ -5,44 +5,74 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Document</title>
-		<script src="./vue.js"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+		</style>
 	</head>
 	<body>
-		<template>
-			<div class="home">
-				<HelloWorld ref="mychild"></HelloWorld>
-				<div @click="clickParent">click me</div>
+		<div id="app">
+			<div>
+				<div class="father">
+					<h4>父亲姓名:易烊千玺</h4>
+					<h4>妻子姓名: <input type="text" v-model="mom_name" /></h4>
+					<h4>大儿子媳妇姓名:{{uname}}</h4>
+					<br />
+				</div>
+				<son_first :mom_name="mom_name" @change_name="uname = $event"></son_first>
+				<son_second :mom_name="mom_name" :uname="uname"></son_second>
 			</div>
-		</template>
+		</div>
+		<script src="./vue.js"></script>
 		<script>
-			import HelloWorld from '@/components/HelloWorld.vue'
-			export default {
-				name: 'home',
-				components: {
-					HelloWorld
+			// 大儿子组件
+			Vue.component('son_first', {
+				props: ['mom_name'],
+				data: function () {
+					return {
+						name: ''
+					}
+				},
+				created() {
+					this.init()
 				},
 				methods: {
-					clickParent() {
-						this.$refs.mychild.parentHandleclick('嘿嘿嘿')
+					init() {
+						this.$emit('change_name', this.name)
 					}
-				}
-			}
-		</script>
-		<template>
-			<div class="hello">
-				<h1>我是HelloWorld组件</h1>
-			</div>
-		</template>
-		<script>
-			export default {
-				name: 'HelloWorld',
-				created() {},
-				methods: {
-					parentHandleclick(e) {
-						console.log(e)
+				},
+
+				template: `<div class="son_first">
+					<h4>姓名:王俊凯</h4>
+					<h4>妈妈姓名:{{mom_name}} </h4>
+					<h4>老婆姓名:<input type="text" v-model="name"  @input="$emit('change_name',name)" ></h4>
+					<br>
+				</div>`
+			})
+			// 小儿子组件
+			Vue.component('son_second', {
+				props: ['mom_name', 'uname'],
+				data: function () {
+					return {
+						uname2: ''
 					}
+				},
+
+				template: `<div class="son_second">
+					<h4>姓名:王源</h4>
+					<h4>妈妈姓名: {{mom_name}} </h4>
+					<h4>大嫂姓名:{{uname}}</h4>
+				</div>`
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					mom_name: '',
+					uname: ''
 				}
-			}
+			})
 		</script>
 	</body>
 </html>

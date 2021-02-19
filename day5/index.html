@@ -25,7 +25,7 @@
 	<body>
 		<!-- 要被 vue 实例所控制的区域 -->
 		<div id="app">
-			<div class="container">
+			<div>
 				<my-cart></my-cart>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
                 <tr v-for="item in cartListData" :key="item.id">
                     <td>{{item.id}}</td>
                     <td>{{item.title}}</td>
-                    <td><img :src="item.img_url" alt=""> </td>
+                    <td><img :src="item.img_url" alt="未取到"> </td>
                     <td>{{item.zhaiyao}}</td>
                     <td>{{item.market_price}}</td>
                     <td>{{item.sell_price}}</td>
@@ -57,10 +57,7 @@
                 </tr>
             </tbody>
         </table>
-      </div>`,
-				computed: {
-					good: function () {}
-				}
+      </div>`
 			}
 
 			Vue.component('my-cart', {
